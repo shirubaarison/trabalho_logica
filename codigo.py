@@ -29,13 +29,14 @@ class Instancia:
 
   def resolva_clausulas(self):
     resultado = self.solver.solve()
-    self.time_to_solve += self.solver.time()
+    self.time_to_solve = self.solver.time()
     return resultado
 
 
   def resetar(self):
     self.solver.delete()
     self.clausulas = []
+    self.time_to_solve = 0
     self.solver = Glucose4(use_timer=True)
 
 
