@@ -1,9 +1,9 @@
 import random
-from pysat.solvers import Glucose4
+from pysat.solvers import Glucose42
 
 class Instancia:
   def __init__(self):
-    self.solver = Glucose4(use_timer=True)
+    self.solver = Glucose42(use_timer=True)
     self.time_to_solve = 0
     self.clausulas = []
 
@@ -29,16 +29,15 @@ class Instancia:
 
   def resolva_clausulas(self):
     resultado = self.solver.solve()
-    self.time_to_solve = self.solver.time()
+    self.time_to_solve += self.solver.time()
     return resultado
 
 
   def resetar(self):
     self.solver.delete()
+    self.solver = Glucose42(use_timer=True)
     self.clausulas = []
-    self.time_to_solve = 0
-    self.solver = Glucose4(use_timer=True)
-
+    
 
   def get_time(self):
     return round(self.time_to_solve, 2)
