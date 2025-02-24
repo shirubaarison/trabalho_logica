@@ -20,6 +20,7 @@ def construir_grafico_prob(k: int, resultados: dict[float, dict[int, dict[str, f
 
     plt.plot(alphas, probs, label=f'n = {n} (Instâncias = {QTD_INSTANCIAS})')
 
+  # Destacar o alpha crítico
   plt.scatter([ponto_critico], [critical_prob], color='black', zorder=5, label="Ponto Crítico")
   plt.annotate(f'Ponto Crítico (α={ponto_critico})',
     xy=(ponto_critico, critical_prob),
@@ -43,6 +44,8 @@ def construir_grafico_prob(k: int, resultados: dict[float, dict[int, dict[str, f
 
 def construir_grafico_tempo(k: int, resultados: dict[float, dict[int, dict[str, float]]], valores_n: list[int]):
   plt.figure(figsize=(12, 8))
+  
+  maior_tempo = 0
   for n in valores_n:
     alphas = []  # a
     tempos = []  # tempo
@@ -50,8 +53,19 @@ def construir_grafico_tempo(k: int, resultados: dict[float, dict[int, dict[str, 
       if n in resultados[a]:
         alphas.append(a)
         tempos.append(resultados[a][n]['tempo'])
+        if resultados[a][n]['tempo'] > maior_tempo:
+          maior_tempo = resultados[a][n]['tempo']
+          alpha_maior_tempo = a
 
     plt.plot(alphas, tempos, label=f'n = {n} (Instâncias = {QTD_INSTANCIAS})')
+
+  # Destacar ponto de maior tempo
+  plt.scatter(alpha_maior_tempo, maior_tempo, color='red', zorder=3, label="Maior Tempo")
+  plt.annotate(f'({alpha_maior_tempo:.2f}, {maior_tempo:.2f}s)', 
+                (alpha_maior_tempo, maior_tempo), 
+                textcoords="offset points", 
+                xytext=(10, -10), 
+                ha='center', fontsize=10, color='black')
   
   titulo = f'{k}-SAT Tempo Médio de Resolução vs α'
   plt.title(titulo)
