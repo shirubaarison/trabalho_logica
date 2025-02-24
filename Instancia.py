@@ -4,11 +4,11 @@ from pysat.solvers import Glucose42
 class Instancia:
   def __init__(self):
     self.solver = Glucose42(use_timer=True)
-    self.time_to_solve = 0
+    self.time = 0.0
     self.clausulas = []
 
 
-  def gerar_clausulas(self, n: int, m: int, k: int):
+  def gerar_clausulas(self, n: int, m: int, k: int) -> None:
     if k > n:
         raise ValueError("k maior que n")
 
@@ -23,21 +23,15 @@ class Instancia:
     for clausula in self.clausulas:
         self.solver.add_clause(list(clausula))
 
-  def get_clausulas(self):
+  def get_clausulas(self) -> list[tuple[int]]:
     return self.clausulas
   
 
-  def resolva_clausulas(self):
+  def resolva_clausulas(self) -> bool:
     resultado = self.solver.solve()
-    self.time_to_solve += self.solver.time()
+    self.time += self.solver.time()
     return resultado
 
 
-  def resetar(self):
-    self.solver.delete()
-    self.solver = Glucose42(use_timer=True)
-    self.clausulas = []
-    
-
-  def get_time(self):
-    return round(self.time_to_solve, 2)
+  def get_time(self) -> float:
+    return round(self.time, 2)

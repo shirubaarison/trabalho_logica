@@ -1,13 +1,12 @@
 import matplotlib.pyplot as plt
 import datetime
-  
+
+from utils.constants import *
+
 def construir_grafico_prob(k: int, resultados: dict[float, dict[int, dict[str, float]]], valores_n: list[int]):
   plt.figure(figsize=(12, 8))
   maior_tempo = 0
   
-  ponto_critico = None
-  critical_prob = None
-
   for n in valores_n:
     alphas = []  # alpha
     probs = []  # prob de satisfazibilidade
@@ -19,14 +18,13 @@ def construir_grafico_prob(k: int, resultados: dict[float, dict[int, dict[str, f
           ponto_critico = a
           critical_prob = resultados[a][n]['prob']
 
-    plt.plot(alphas, probs, label=f'n = {n}')
+    plt.plot(alphas, probs, label=f'n = {n} (Instâncias = {QTD_INSTANCIAS})')
 
-  if ponto_critico is not None and critical_prob is not None: 
-    plt.scatter([ponto_critico], [critical_prob], color='black', zorder=5, label="Ponto Crítico")
-    plt.annotate(f'Ponto Crítico (α={ponto_critico})',
-      xy=(ponto_critico, critical_prob),
-      xytext=(ponto_critico, critical_prob),
-      fontsize=10)
+  plt.scatter([ponto_critico], [critical_prob], color='black', zorder=5, label="Ponto Crítico")
+  plt.annotate(f'Ponto Crítico (α={ponto_critico})',
+    xy=(ponto_critico, critical_prob),
+    xytext=(ponto_critico, critical_prob),
+    fontsize=10)
   
   titulo = f'{k}-SAT Satisfazibilidade vs Alpha'
   plt.title(titulo)
@@ -53,12 +51,12 @@ def construir_grafico_tempo(k: int, resultados: dict[float, dict[int, dict[str, 
         alphas.append(a)
         tempos.append(resultados[a][n]['tempo'])
 
-    plt.plot(alphas, tempos, label=f'n = {n}')
+    plt.plot(alphas, tempos, label=f'n = {n} (Instâncias = {QTD_INSTANCIAS})')
   
-  titulo = f'{k}-SAT Tempo de Resolução vs α'
+  titulo = f'{k}-SAT Tempo Médio de Resolução vs α'
   plt.title(titulo)
   plt.xlabel('Alpha (α)')
-  plt.ylabel('Tempo de Resolução (s)')
+  plt.ylabel('Tempo médio (s)')
   plt.legend()
   plt.grid(True)
 
