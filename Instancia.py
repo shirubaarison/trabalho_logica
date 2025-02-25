@@ -10,18 +10,18 @@ class Instancia:
 
   def gerar_clausulas(self, n: int, m: int, k: int) -> None:
     if k > n:
-        raise ValueError("k maior que n")
+      raise ValueError("k maior que n")
 
     clausulas = set()
-    for _ in range(m):  
-        literais = random.sample(range(1, n + 1), k)
-        clausula = tuple(v * random.choice((-1, 1)) for v in literais)
-        clausulas.add(clausula)
+    while len(clausulas) < m:
+      literais = random.sample(range(1, n + 1), k)
+      clausula = tuple(v * random.choice((-1, 1)) for v in literais)
+      clausulas.add(clausula)
 
     self.clausulas = list(clausulas) 
 
     for clausula in self.clausulas:
-        self.solver.add_clause(list(clausula))
+      self.solver.add_clause(list(clausula))
 
   def get_clausulas(self) -> list[tuple[int]]:
     return self.clausulas
