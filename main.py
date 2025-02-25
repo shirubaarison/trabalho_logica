@@ -53,7 +53,7 @@ def executar(k: int, qtd_instancias: int, a_lim: float, valores_n: list[int]) ->
           resultados[a] = {}
       resultados[a][n] = {'prob': prob, 'tempo': tempo}
       
-      print(f'{k}-SAT a = {a:.1f}, n = {n}: {prob}%')
+      print(f'{k}-SAT a = {a:.1f}, n = {n}: {prob}%, tempo médio: {round(tempo, 2)}')
 
   salvar_resultado(k, resultados)
   construir_graficos(k, resultados, valores_n)
